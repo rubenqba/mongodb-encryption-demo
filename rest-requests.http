@@ -1,0 +1,58 @@
+// @no-log
+POST http://localhost:8080/people/repository
+Accept: application/json
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Repository",
+  "email": "{{$random.email}}",
+  "address": {
+    "street": "Main St 123",
+    "city": "Mordor",
+    "state": "Tales",
+    "zip": {{$random.integer(10000, 99999)}}
+  }
+}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.global.set("repo-id", response.body.id);
+    });
+%}
+
+###
+GET http://localhost:8080/people/repository/{{repo-id}}
+Accept: application/json
+
+###
+// @no-log
+POST http://localhost:8080/people/mongo-template
+Accept: application/json
+Content-Type: application/json
+
+{
+  "firstName": "Jane",
+  "lastName": "Template",
+  "email": "{{$random.email}}",
+  "address": {
+    "street": "The Wall St 456",
+    "city": "Winterfel",
+    "state": "Westeros",
+    "zip": {{$random.integer(10000, 99999)}}
+  }
+}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.global.set("template-id", response.body.id);
+    });
+%}
+
+###
+GET http://localhost:8080/people/mongo-template/{{template-id}}
+Accept: application/json
+
+###
