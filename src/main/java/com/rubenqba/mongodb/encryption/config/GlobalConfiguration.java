@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
  * @author rbresler
  **/
 @Configuration
-@ImportAutoConfiguration({EncryptAutoConfiguration.class})
+@ImportAutoConfiguration({EncryptAutoConfiguration.class})  // No cuenta con el soporte de Spring 3.2.x para la autoconfiguración
+                                                            // por eso hay que incluirlo manualmente
 public class GlobalConfiguration {
 }
